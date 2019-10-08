@@ -3,7 +3,6 @@
 
 using namespace std;
 
-int previousMoveLocation = -1; // Keep the previous move's location to avoid overlap
 string winningTurn = " "; // Will be assigned to whichever player wins
 
 // Create the values for the grids on the board
@@ -42,40 +41,31 @@ void UpdateValues(const int location, const string move, string values[])
 	switch (location)
 	{
 	case 1:
-		if (values[0] != "X" && values[0] != "O")
-			values[0] = move;
+		values[0] = move;
 		break;
 	case 2:
-		if (values[1] != "X" && values[1] != "O")
-			values[1] = move;
+		values[1] = move;
 		break;
 	case 3:
-		if (values[2] != "X" && values[2] != "O")
-			values[2] = move;
+		values[2] = move;
 		break;
 	case 4:
-		if (values[3] != "X" && values[3] != "O")
-			values[3] = move;
+		values[3] = move;
 		break;
 	case 5:
-		if (values[4] != "X" && values[4] != "O")
-			values[4] = move;
+		values[4] = move;
 		break;
 	case 6:
-		if (values[5] != "X" && values[5] != "O")
-			values[5] = move;
+		values[5] = move;
 		break;
 	case 7:
-		if (values[6] != "X" && values[6] != "O")
-			values[6] = move;
+		values[6] = move;
 		break;
 	case 8:
-		if (values[7] != "X" && values[7] != "O")
-			values[7] = move;
+		values[7] = move;
 		break;
 	case 9:
-		if (values[8] != "X" && values[8] != "O")
-			values[8] = move;
+		values[8] = move;
 		break;
 	default:
 		cout << "Something went wrong..." << endl;
@@ -101,14 +91,15 @@ void MakeMove(const string turn, string values[])
 	int moveLocation;
 
 	// Make sure that they actually entered one of the right numbers
+
+	// TODO: the players can override previous squares entered
 	do
 	{
 		moveLocation = GetMoveLocation(turn);
-	} while ((moveLocation != 1) && (moveLocation != 2) && (moveLocation != 3) && (moveLocation != 4) && (moveLocation != 5) && (moveLocation != 6) && (moveLocation != 7) && (moveLocation != 8) && (moveLocation != 9) && (previousMoveLocation != moveLocation));
+	} while ( ( (moveLocation != 1) && (moveLocation != 2) && (moveLocation != 3) && (moveLocation != 4) && (moveLocation != 5) && 
+	(moveLocation != 6) && (moveLocation != 7) && (moveLocation != 8) && (moveLocation != 9) ) && ( (values[moveLocation - 1] == "X") || (values[moveLocation - 1] == "O") ) );
 
 	UpdateValues(moveLocation, turn, values);
-
-	previousMoveLocation = moveLocation;
 }
 
 bool CheckGameWin(const string turn, const string values[])
@@ -235,7 +226,6 @@ bool PlayGame(string turn, string gridValues[])
 void ResetGame()
 {
 	// Create the values for the grids on the board
-	previousMoveLocation = -1;
 	winningTurn = " ";
 	gridValues[0] = "1";
 	gridValues[1] = "2";
