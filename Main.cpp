@@ -92,12 +92,19 @@ void MakeMove(const string turn, string values[])
 
 	// Make sure that they actually entered one of the right numbers
 
-	// TODO: the players can override previous squares entered
-	do
+	moveLocation = GetMoveLocation(turn);
+
+	while (true)
 	{
-		moveLocation = GetMoveLocation(turn);
-	} while ( ( (moveLocation != 1) && (moveLocation != 2) && (moveLocation != 3) && (moveLocation != 4) && (moveLocation != 5) && 
-	(moveLocation != 6) && (moveLocation != 7) && (moveLocation != 8) && (moveLocation != 9) ) && ( (values[moveLocation - 1] == "X") || (values[moveLocation - 1] == "O") ) );
+		if (((moveLocation != 1) && (moveLocation != 2) && (moveLocation != 3) && (moveLocation != 4) && (moveLocation != 5) &&
+			(moveLocation != 6) && (moveLocation != 7) && (moveLocation != 8) && (moveLocation != 9)) || ((values[moveLocation - 1] == "X") || (values[moveLocation - 1] == "O")))
+		{
+			cout << "Try again: ";
+			moveLocation = GetMoveLocation(turn);
+		}	
+		else
+			break;
+	}
 
 	UpdateValues(moveLocation, turn, values);
 }
