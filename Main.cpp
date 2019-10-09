@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <time.h>
 
 using namespace std;
 
@@ -73,7 +74,7 @@ void UpdateValues(const int location, const string move, string values[])
 	}
 }
 
-int GetMoveLocation(string turn)
+int GetPlayerMoveLocation(string turn)
 {
 	string moveLocationString;
 
@@ -86,21 +87,37 @@ int GetMoveLocation(string turn)
 	return moveLocation;
 }
 
+int GetAIMoveLocation(string turn)
+{
+	// Generate the random location
+	srand((unsigned int)time(NULL));
+	int randomLocation = rand() % 9; // 9 possible values
+
+	return randomLocation;
+}
+
 void MakeMove(const string turn, string values[])
 {
-	int moveLocation;
+	int moveLocation{};
 
 	// Make sure that they actually entered one of the right numbers
 
-	moveLocation = GetMoveLocation(turn);
+	// TODO?: Make it so that player can choose which they play as
+	if (turn == "X")
+		moveLocation = GetPlayerMoveLocation(turn);
+	else if (turn == "O")
+		moveLocation = GetAIMoveLocation(turn);
 
 	while (true)
 	{
 		if (((moveLocation != 1) && (moveLocation != 2) && (moveLocation != 3) && (moveLocation != 4) && (moveLocation != 5) &&
 			(moveLocation != 6) && (moveLocation != 7) && (moveLocation != 8) && (moveLocation != 9)) || ((values[moveLocation - 1] == "X") || (values[moveLocation - 1] == "O")))
 		{
-			cout << "Try again: ";
-			moveLocation = GetMoveLocation(turn);
+			// TODO?: Make it so that player can choose which they play as
+			if (turn == "X")
+				moveLocation = GetPlayerMoveLocation(turn);
+			else if (turn == "O")
+				moveLocation = GetAIMoveLocation(turn);
 		}	
 		else
 			break;
@@ -175,7 +192,7 @@ bool CheckGameWin(const string turn, const string values[])
 		winningTurn = turn;
 		return true;
 	}
-	else if ((values[0] != "1") && (values[1] != "2") && (values[2] != "3") && (values[3] != "4") && (values[4] != "5") && (values[5] != "6") && (values[6] != "7") && (values[7] != "8") && (values[9] != "9"))
+	else if ((values[0] != "1") && (values[1] != "2") && (values[2] != "3") && (values[3] != "4") && (values[4] != "5") && (values[5] != "6") && (values[6] != "7") && (values[7] != "8") && (values[8] != "9"))
 	{
 		winningTurn = "No one";
 		return true;
