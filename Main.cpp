@@ -87,13 +87,34 @@ int GetPlayerMoveLocation(string turn)
 	return moveLocation;
 }
 
-int GetAIMoveLocation(string turn)
+int SetAIMoveLocation(string values[])
 {
-	// Generate the random location
-	srand((unsigned int)time(NULL));
-	int randomLocation = rand() % 9; // 9 possible values
+	if (((values[1] == "X" && values[2] == "X") || (values[4] == "X" && values[8] == "X") || (values[3] == "X" && values[6] == "X")) && values[0] != "O") // All places to set computer to 1
+		return 1;
+	else if (((values[0] == "X" && values[2] == "X") || (values[4] == "X" && values[7] == "X")) && values[1] != "O")
+		return 2;
+	else if (((values[0] == "X" && values[1] == "X") || (values[5] == "X" && values[8] == "X") || (values[4] == "X" && values[6] == "X")) && values[2] != "O")
+		return 3;
+	else if (((values[0] == "X" && values[6] == "X") || (values[4] == "X" && values[5] == "X")) && values[3] != "O")
+		return 4;
+	else if (((values[0] == "X" && values[8] == "X") || (values[1] == "X" && values[7] == "X") || (values[2] == "X" && values[6] == "X") || (values[3] == "X" && values[5] == "X")) && values[4] != "O")
+		return 5;
+	else if (((values[2] == "X" && values[8] == "X") || (values[3] == "X" && values[4] == "X")) && values[5] != "O")
+		return 6;
+	else if (((values[0] == "X" && values[3] == "X") || (values[7] == "X" && values[8] == "X") || (values[4] == "X" && values[2] == "X")) && values[6] != "O")
+		return 7;
+	else if (((values[1] == "X" && values[4] == "X") || (values[6] == "X" && values[8] == "X")) && values[7] != "O")
+		return 8;
+	else if (((values[0] == "X" && values[4] == "X") || (values[2] == "X" && values[5] == "X") || (values[6] == "X" && values[7] == "X")) && values[8] != "O")
+		return 9;
+	else
+	{
+		// Generate the random location
+		srand((unsigned int)time(NULL));
+		int randomLocation = rand() % 9; // 9 possible values
 
-	return randomLocation;
+		return randomLocation;
+	}
 }
 
 void MakeMove(const string turn, string values[])
@@ -106,7 +127,7 @@ void MakeMove(const string turn, string values[])
 	if (turn == "X")
 		moveLocation = GetPlayerMoveLocation(turn);
 	else if (turn == "O")
-		moveLocation = GetAIMoveLocation(turn);
+		moveLocation = SetAIMoveLocation(values);
 
 	while (true)
 	{
@@ -117,7 +138,7 @@ void MakeMove(const string turn, string values[])
 			if (turn == "X")
 				moveLocation = GetPlayerMoveLocation(turn);
 			else if (turn == "O")
-				moveLocation = GetAIMoveLocation(turn);
+				moveLocation = SetAIMoveLocation(values);
 		}	
 		else
 			break;
